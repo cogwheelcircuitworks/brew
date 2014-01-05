@@ -19,6 +19,7 @@ right up top and clean.
 // we're firing all out initial functions at the start
 add_action( 'after_setup_theme', 'bones_ahoy', 16 );
 
+if ( ! function_exists('bones_ahoy')) { // to allow override in child theme
 function bones_ahoy() {
 
     // launching operation cleanup
@@ -50,6 +51,8 @@ function bones_ahoy() {
     add_filter( 'excerpt_more', 'bones_excerpt_more' );
 
 } /* end bones ahoy */
+
+}
 
 /*********************
 WP_HEAD GOODNESS
@@ -121,22 +124,23 @@ SCRIPTS & ENQUEUEING
 *********************/
 
 // loading modernizr and jquery, and reply script
+if ( ! function_exists('bones_scripts_and_styles')) { // to allow override in child theme
 function bones_scripts_and_styles() {
   global $wp_styles; // call global $wp_styles variable to add conditional wrapper around ie stylesheet the WordPress way
   if (!is_admin()) {
 
     // js bootstrap
     // download a custom file @ getbootstrap.com/customize/ if you don't want all js components
-    wp_register_script( 'bones-bootstrap', get_stylesheet_directory_uri() . '/library/js/libs/bootstrap.min.js', array(), '3.0.0', true );
+    wp_register_script( 'bones-bootstrap', get_template_directory_uri() . '/library/js/libs/bootstrap.min.js', array(), '3.0.0', true );
 
     // modernizr (without media query polyfill)
-    wp_register_script( 'bones-modernizr', get_stylesheet_directory_uri() . '/library/js/libs/modernizr.custom.min.js', array(), '2.5.3', false );
+    wp_register_script( 'bones-modernizr', get_template_directory_uri() . '/library/js/libs/modernizr.custom.min.js', array(), '2.5.3', false );
 
     // register main stylesheet
-    wp_register_style( 'bones-stylesheet', get_stylesheet_directory_uri() . '/library/css/style.css', array(), '', 'all' );
+    wp_register_style( 'bones-stylesheet', get_template_directory_uri() . '/library/css/style.css', array(), '', 'all' );
 
     // ie-only style sheet
-    wp_register_style( 'bones-ie-only', get_stylesheet_directory_uri() . '/library/css/ie.css', array(), '' );
+    wp_register_style( 'bones-ie-only', get_template_directory_uri() . '/library/css/ie.css', array(), '' );
 
     // comment reply script for threaded comments
     if ( is_singular() AND comments_open() AND (get_option('thread_comments') == 1)) {
@@ -144,10 +148,10 @@ function bones_scripts_and_styles() {
     }
 
     //adding scripts file in the footer
-    wp_register_script( 'bones-js', get_stylesheet_directory_uri() . '/library/js/scripts.js', array( 'jquery' ), '', true );
+    wp_register_script( 'bones-js', get_template_directory_uri() . '/library/js/scripts.js', array( 'jquery' ), '', true );
 
     // Bootstrap JS
-    wp_register_script( 'bones-bootstrap', get_stylesheet_directory_uri() . '/library/js/libs/bootstrap.min.js', array(), '3.0.0', true );
+    wp_register_script( 'bones-bootstrap', get_template_directory_uri() . '/library/js/libs/bootstrap.min.js', array(), '3.0.0', true );
 
     // enqueue styles and scripts
     wp_enqueue_script( 'bones-modernizr' );
@@ -167,12 +171,14 @@ function bones_scripts_and_styles() {
 
   }
 }
+}
 
 /*********************
 THEME SUPPORT
 *********************/
 
 // Adding WP 3+ Functions & Theme Support
+if ( ! function_exists('bones_theme_support')) { // to allow override in child theme
 function bones_theme_support() {
 
 	// wp thumbnails (sizes handled in functions.php)
@@ -223,6 +229,7 @@ function bones_theme_support() {
 		)
 	);
 } /* end bones theme support */
+}
 
 
 /*********************
@@ -230,6 +237,7 @@ MENUS & NAVIGATION
 *********************/
 
 // the main menu
+if ( ! function_exists('bones_main_nav')) { // to allow override in child theme
 function bones_main_nav() {
 	// display the wp3 menu if available
     wp_nav_menu(array(
@@ -246,7 +254,9 @@ function bones_main_nav() {
     	'walker' => new wp_bootstrap_navwalker()        // for bootstrap nav
 	));
 } /* end bones main nav */
+}
 
+if ( ! function_exists('bones_footer_links')) { // to allow override in child theme
 // the footer menu (should you choose to use one)
 function bones_footer_links() {
 	// display the wp3 menu if available
@@ -264,6 +274,7 @@ function bones_footer_links() {
     	'fallback_cb' => 'bones_footer_links_fallback', // fallback function
 	));
 } /* end bones footer link */
+}
 
 // this is the fallback for header menu
 function bones_main_nav_fallback() {
