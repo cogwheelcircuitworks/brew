@@ -1,4 +1,7 @@
 <?php
+
+// minior mods to allow creating child themes as wordpress api intends  - Bob C - cogwheelcircuitworks @ gmail.com
+
 /* Welcome to Bones :)
 This is the core Bones file where most of the
 main functions & features reside. If you have
